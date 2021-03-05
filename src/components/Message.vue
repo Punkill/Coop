@@ -1,7 +1,7 @@
 <template>
     <div class="message">
         <header>
-            <b>{{membre.fullname}}</b> <time>le {{dateMessage}}</time>
+            <img  class="avatar" :src=hash><b>{{membre.fullname}}</b> <time>le {{dateMessage}}</time>
         </header>
             {{message.message}}
         <div v-if="message.conversation">
@@ -15,7 +15,12 @@ export default {
     computed:{
         membre()
         {
-            return this.$store.getters.getMembre(this.$route.params.membre_id)
+            return this.$store.getters.getMembre(this.message.member_id)
+        },
+        hash()
+        {
+            var md5 = require('md5');
+            return "https://avatars.dicebear.com/v2/jdenticon/"+md5(this.membre.email)+".svg";
         },
         dateMessage()
         {

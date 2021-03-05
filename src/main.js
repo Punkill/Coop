@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import axios from 'axios'
+import md5 from 'md5'
 
 import milligram from 'milligram'
 //Token : ede141abef2c7ed3b7e74348597090436c4c1f81

@@ -36,12 +36,14 @@ export default {
       {
         if(this.$route.path != "/se-connecter" && this.$route.path !="creer-compte")
           this.$router.push('/se-connecter');
-      }/*else{
+      }
+      else
+      {
         api.get('members/'+this.$store.membre.id+'/signedin').catch(error=>{
-          this.$store.commit('/SeDeconnecter')
-          this.$router.push('/se-connecter')
+            this.$store.commit('seDeconnecter');
+            this.$router.push('/se-connecter');
         })
-      }*/
+      }
     }).catch(error=>{
       console.log("l'api ne marche pas");
     })

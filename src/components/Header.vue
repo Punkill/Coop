@@ -11,7 +11,10 @@
   </header>
 </template>
 
-<style>
+<style lang="scss">
+img{
+  width: 2%;
+}
 body {
   margin: 0;
   font-family: Helvetica, sans-serif;
@@ -20,7 +23,34 @@ body {
 a {
   color: #000;
 }
-
+#creer-conversation{
+  position: fixed;
+  top: 0;
+  left:10;
+  width:100%;
+  height:100%;
+  background: rgba(0,0,0,0.5);
+  &>section{
+      .close{
+          position:absolute;
+          top: -1em;
+          right: -1em;
+          width:3em;
+          height:3em;
+          margin:0;
+          padding:0;
+          border-radius: 50%;
+          line-height: 3em;
+      }
+      position:absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      background: white;
+      padding: 1em;
+      border-radius: 1em;
+  }
+}
 /* header */
 
 .header {

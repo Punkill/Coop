@@ -3,13 +3,14 @@
         <div><router-link to="/membres">Membres</router-link>> {{membre.fullname}}</div>
         <h1>{{membre.fullname}}</h1>
         <ul>
+            <img class="avatar" :src=hash>
             <li>Email : {{membre.email}}</li>
             <li>Inscrit depuis : {{membre.depuis}}</li>
         </ul>
 
         <h2>Messages</h2>
         <div v-if="loading">Chargement des messages, veuillez patienter....</div>
-        <div v-for="message in messages">
+        <div v-for="message in messagesTries">
             <Message :message="message"/>
         </div>
     </div>
@@ -24,18 +25,18 @@ export default {
         return{
             membre:false,
             messages : [],
-            loading : true
+            loading : true,
         }
     },
     computed:{
         messagesTries()
         {
             function compare( a, b ) {
-            if ( a.created_at < b.created_at )
+            if ( a.created_at > b.created_at )
             {
                 return -1;
             }
-            if ( a.created_at > b.created_at )
+            if ( a.created_at < b.created_at )
             {
                 return 1;
             }
@@ -43,6 +44,17 @@ export default {
             }
 
             return this.messages.sort(compare).slice(0,10)
+        },
+        hash()
+        {
+            /*let hash = 0;
+            for (i = 0; i < this.length; i++) {
+                char = this.charCodeAt(i);
+                hash = ((hash<<5)-hash)+char;
+                hash = hash & hash; // Convert to 32bit integer
+            }*/
+            var md5 = require('md5');
+            return "https://avatars.dicebear.com/v2/jdenticon/"+md5(this.membre.email)+".svg";
         }
     },
     mounted()
@@ -52,7 +64,6 @@ export default {
             this.membre =  this.$store.getters.getMembre(this.$route.params.membre_id)
             let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
             this.membre.depuis = new Date(this.membre.created_at).toLocaleString('fr-Fr',options)
-
             let cpt=0;
             this.$store.state.conversations.forEach(conversation=>
             {
@@ -76,4 +87,11 @@ export default {
         }
     }
 }
+//https://avatars.dicebear.com/v2/jdenticon/sdmfkgjsmdogjsmsdmfx.svg
 </script>
+
+<style scoped>
+img{
+    width : 9%;
+}
+</style>
