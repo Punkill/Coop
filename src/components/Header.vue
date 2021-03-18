@@ -3,8 +3,8 @@
   <input class="menu-btn" type="checkbox" id="menu-btn" />
   <label class="menu-icon" for="menu-btn"><span class="navicon"></span></label>
   <ul class="menu">
+    <li><a href="/creer-converqations">Coop</a></li>
     <li><a href="/creer-conversation">Conversations</a></li>
-    <li><a href="/coop">Coop</a></li>
     <li><router-link to="/membres">Membres</router-link></li>
     <li><button @click="seDeconnecter">Se Déconnecter</button></li>
   </ul>

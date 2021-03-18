@@ -12,5 +12,8 @@ export default {
     components : {
         Membre,
     },
+    mounted(){
+        this.$bus.$emit('charger-membres');
+    }
 }
 </script>

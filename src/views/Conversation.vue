@@ -17,7 +17,7 @@
                 <input v-model="newC.label" required type="text" placeholder="Quels sont les concepts abordés ?">
             </div>
             <div>
-                <button @click="editerConversation">Créer la Conversation</button>
+                <button @click="editerConversation">Editer la Conversation</button>
                 <button class="button" @click="masquerFormulaire">Annuler</button>
             </div>
             </form>
