@@ -15,6 +15,10 @@
             <input v-model="password" required type="password" placeholder="Mot de passe">
         </div>
         <div>
+            <label>Valider Mdp</label>
+            <input v-model="verifPassword" required type="password" placeholder="Mot de passe">
+        </div>
+        <div>
             <button class="button">Créer mon compte</button>
         </div>
         </form>
@@ -26,27 +30,35 @@
             return{
                 fullname : '',
                 email :'',
-                password: ''
+                password: '',
+                verifPassword: ''
             }
         },
         methods :
         {
             creerCompte()
             {
-                api.post('members',
+                if(this.password == this.verifPassword)
                 {
-                    fullname:this.fullname,
-                    email:this.email,
-                    password:this.password
-                }).then(response=>
+                    api.post('members',
+                    {
+                        fullname:this.fullname,
+                        email:this.email,
+                        password:this.password
+                    }).then(response=>
+                    {
+                        alert('Votre compte a été crée vous pouvez vous connecter a Coop');
+                        console.log(response.data); //contenu des data
+                        this.$router.push('/se-connecter');
+                    }).catch(error=>
+                    {
+                        alert(error.response.data.message); //Contenu de de l'erreur
+                    })
+                }
+                else
                 {
-                    alert('Votre compte a été crée vous pouvez vous connecter a Coop');
-                    console.log(response.data); //contenu des data
-                    this.$router.push('/se-connecter');
-                }).catch(error=>
-                {
-                    alert(error.response.data.message); //Contenu de de l'erreur
-                })
+                    alert("Veuillez taper le meme mot de passe")
+                }
             }
         }
     }

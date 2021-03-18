@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div>
         <h1>Liste des conversations</h1>
         <CreerConversation/>
 

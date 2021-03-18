@@ -25,7 +25,7 @@
 export default {
     data(){
         return{
-            email: 'thomas@js.fr',
+            email: 'thomas@vue.js',
             password: 'mdr'
         }
     },

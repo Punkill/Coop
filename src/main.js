@@ -8,8 +8,8 @@ import md5 from 'md5'
 import milligram from 'milligram'
 //Token : ede141abef2c7ed3b7e74348597090436c4c1f81
 window.api = axios.create({
-  baseURL: 'https://tools.sopress.net/iut/coop/api/',
-  headers: { Authorization: 'ede141abef2c7ed3b7e74348597090436c4c1f81' }
+  baseURL: 'https://allweb.fun/coop/api/',
+  headers: { Authorization: '678972d5505a5b36335c892be8d1415d6a48b037' }
 });
 api.get('ping');
 Vue.prototype.$bus = new Vue();

@@ -1,37 +1,41 @@
 <template>
-    <div class="container" v-if="conversation">
-        <h1>Topic : {{conversation.topic}}</h1>
-        <h3>Sujet de la conversation: {{conversation.label}}</h3>
+    <div v-if="conversation">
+        <h1>Topic : {{newC.topic}}</h1>
+        <h3>Sujet de la conversation: {{newC.label}}</h3>
         <button @click="modifierConversation">Modifier Conversation</button>
         <div id="creer-conversation" v-if="editer">
         <section>
             <button @click="masquerFormulaire">x</button>
-                <h3>Creer Conversations</h3>
+                <h3>Modifier Conversations</h3>
             <form @submit.prevent="editerConversation">
             <div>
                 <label>Sujet</label>
-                <input v-model="conversation.topic" required type="text" placeholder="De quoi voulez-vous discuter ?">
+                <input v-model="newC.topic" required type="text" placeholder="De quoi voulez-vous discuter ?">
             </div>
             <div>
                 <label>Tags</label>
-                <input v-model="conversation.label" required type="text" placeholder="Quels sont les concepts abordés ?">
+                <input v-model="newC.label" required type="text" placeholder="Quels sont les concepts abordés ?">
             </div>
             <div>
-                <button>Créer la Conversation</button>
+                <button @click="editerConversation">Créer la Conversation</button>
                 <button class="button" @click="masquerFormulaire">Annuler</button>
             </div>
             </form>
         </section>
         </div>
-        <div class="message" v-for="message in messages">
-            <Message :message="message"/>
+        <div class="messagesContainer">
+            <div class="message" v-for="message in messages">
+                <Message :message="message"/>
+            </div>
         </div>
         <div ref="bottom">
             <form @submit.prevent="posterMessage" id="envoiMSG">
-                <fieldset>
-                    <input v-model="message" required type="text" placeholder="Votre Message">
-                </fieldset>
-                <button>Envoyer</button>
+                <div>
+                    <div>
+                        <input v-model="message" required type="text" placeholder="Votre Message">
+                    </div>
+                    <button>Envoyer</button>
+                </div>
             </form>
         </div>
     </div>
@@ -49,6 +53,7 @@ export default {
         return{
             editer: false,
             c: false,
+            newC:{topic:'',label:''},
             conversation:false,
             message : '',
             messages: []
@@ -61,12 +66,19 @@ export default {
             api.get('channels/'+this.$route.params.id).then(response=>
             {
                 this.conversation = response.data;
+                this.clonerConversation();
                 this.chargerMessages();
+                this.$bus.$on('charger-messages',this.chargerMessages);
             })
         }
     },
     methods:
     {
+        clonerConversation()
+        {
+            this.newC.topic = this.conversation.topic
+            this.newC.label = this.conversation.label
+        },
         chargerMessages()
         {
             api.get('channels/'+this.conversation.id+'/posts').then(response=>
@@ -90,6 +102,8 @@ export default {
         modifierConversation()
         {
             this.editer = true;
+            //this.editerConversation()
+            //setTimeout(()=> this.$refs['topic'].focus(),500)
         },
         masquerFormulaire()
         {
@@ -97,17 +111,38 @@ export default {
         },
         editerConversation()
         {
-
+            api.put('channels/'+this.conversation.id, this.newC).then(response=>
+            {
+                this.conversation = response.data
+                this.clonerConversation()
+                this.editer = false
+                this.masquerFormulaire()
+                this.$bus.$emit('charger-conversations')
+            }).catch(error=>
+            {
+                console.log(error.response.data.message)
+            })
         }
     }
 }
 </script>
 <style scoped lang="scss">
-    form#envoiMSG{
-        position:fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        margin:0;
-    }
+.messagesContainer{
+    margin-bottom: 6%;
+}
+.message{
+    margin-bottom: 2em;
+    margin-left: 1em;
+}
+
+form#envoiMSG{
+    background:aliceblue;
+    position: fixed;
+    bottom: 0;
+    left: 1em;
+    width: 100%;
+    margin: 0;
+    left: unset;
+    padding: 0;
+}
 </style>
