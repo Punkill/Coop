@@ -47,12 +47,6 @@ export default {
         },
         hash()
         {
-            /*let hash = 0;
-            for (i = 0; i < this.length; i++) {
-                char = this.charCodeAt(i);
-                hash = ((hash<<5)-hash)+char;
-                hash = hash & hash; // Convert to 32bit integer
-            }*/
             var md5 = require('md5');
             return "https://avatars.dicebear.com/v2/jdenticon/"+md5(this.membre.email)+".svg";
         }
@@ -61,10 +55,13 @@ export default {
     {
         if(this.$route.params.membre_id)
         {
+            //On recupere le membre pour afficher son profil
             this.membre =  this.$store.getters.getMembre(this.$route.params.membre_id)
+            //On gere le format de la date
             let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
             this.membre.depuis = new Date(this.membre.created_at).toLocaleString('fr-Fr',options)
             let cpt=0;
+            //On boucle sur chaque conversations pour obtenir les messages du membre en question et les afficher
             this.$store.state.conversations.forEach(conversation=>
             {
                 api.get('channels/'+conversation.id+'/posts').then(response=>
@@ -87,7 +84,6 @@ export default {
         }
     }
 }
-//https://avatars.dicebear.com/v2/jdenticon/sdmfkgjsmdogjsmsdmfx.svg
 </script>
 
 <style scoped>

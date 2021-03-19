@@ -6,7 +6,8 @@ import axios from 'axios'
 import md5 from 'md5'
 
 import milligram from 'milligram'
-//Token : ede141abef2c7ed3b7e74348597090436c4c1f81
+
+//Declaration pour faire des requetes a l'API
 window.api = axios.create({
   baseURL: 'https://allweb.fun/coop/api/',
   headers: { Authorization: '678972d5505a5b36335c892be8d1415d6a48b037' }

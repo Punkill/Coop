@@ -1,9 +1,7 @@
 <template>
 <div class="container">
     <h1>Se Connecter</h1>
-    <div>
-        mettre ici un lien vers la page de création de compte
-    </div>
+    <!-- Formulaire de connexion -->
     <form @submit.prevent="connexion">
     <fieldset>
         <div>
@@ -25,8 +23,8 @@
 export default {
     data(){
         return{
-            email: 'thomas@vue.js',
-            password: 'mdr'
+            email: '',
+            password: ''
         }
     },
     methods:
@@ -39,11 +37,12 @@ export default {
                 password: this.password
             }).then(response =>
             {
+                //On affecte l'etat du membre ainsi que du Token dans le store pour l'utiliser sur toute les pages
                 this.$store.commit('setMembre',response.data.member);
                 this.$store.commit('setToken',response.data.token);
                 alert('Vous êtes maintenant connecté');
                 console.log(response.data); //contenu des data
-                this.$router.push('/');
+                this.$router.push('/'); //Une fois connecté on envois l'utilisateur sur le Home
             }).catch(error=>
             {
                 alert(error.response.data.message); //Contenu de de l'erreur

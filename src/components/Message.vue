@@ -31,7 +31,7 @@ export default {
     {
         return{
             editer:false,
-            messageEdit:''
+            messageEdit:'' //Obtiendra le message qui sera modifier
         }
     },
     mounted()
@@ -39,10 +39,12 @@ export default {
         this.messageEdit = this.message.message;
     },
     computed:{
+        //Permet d'obtenir le membre qui a écrit le message
         membre()
         {
             return this.$store.getters.getMembre(this.message.member_id)
         },
+        //Fonction qui permet de hash l'adresse email du membre pour obtenir un gravatar
         hash()
         {
             var md5 = require('md5');

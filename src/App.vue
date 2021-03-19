@@ -23,15 +23,21 @@ export default {
   },
   mounted(){
     console.log("L'app est démarée");
+    //On ping l'API au lancement pour savoir si elle est disponible
     api.get('ping').then(reponse=>
     {
       this.apiOk = true;
       console.log("l'api est fonctionelle");
 
+      //On fait les chargements de Membres + Conversation avec leur bus respectif
       this.chargerMembres();
       this.$bus.$on('chargerMembres',this.chargerMembres);
       this.chargerConversations();
       this.$bus.$on('charger-conversations',this.chargerConversations);
+      /*
+        Si membre est a false c'est à dire qu'on est pas connecté on affiche la page de connexion
+        Sinon on déconnecte l'utilisateur
+      */
       if(!this.$store.state.membre)
       {
         if(this.$route.path != "/se-connecter" && this.$route.path !="creer-compte")
@@ -52,7 +58,6 @@ export default {
   {
     chargerMembres()
     {
-      //Chargement de la liste des membres
       api.get('members').then(response=>
       {
         this.$store.commit('setMembres',response.data);
